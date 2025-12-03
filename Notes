@@ -1,0 +1,627 @@
+import React, { useState, useMemo } from 'react';
+import { 
+  Globe, 
+  Scale, 
+  Users, 
+  Lightbulb, 
+  Heart, 
+  Building, 
+  Leaf, 
+  Award, 
+  MapPin, 
+  CheckCircle, 
+  ArrowRight,
+  BookOpen,
+  Briefcase,
+  Zap,
+  Layout,
+  HelpCircle,
+  FileText,
+  AlertCircle,
+  ChevronDown,
+  ChevronUp,
+  Star
+} from 'lucide-react';
+
+const App = () => {
+  const [activeTab, setActiveTab] = useState('apec_asean');
+
+  return (
+    <div className="min-h-screen bg-slate-50 font-sans text-slate-800 selection:bg-emerald-200">
+      {/* Navigation / Header */}
+      <header className="bg-slate-900 text-white sticky top-0 z-50 shadow-lg border-b border-slate-700">
+        <div className="max-w-7xl mx-auto px-4 py-4 flex flex-col md:flex-row justify-between items-center gap-4">
+          <div className="flex items-center gap-2">
+            <div className="bg-emerald-500 p-1 rounded-lg">
+              <Building className="w-6 h-6 text-slate-900" />
+            </div>
+            <span className="font-bold text-xl tracking-wide">ARCHI<span className="text-emerald-400">GRAPHIC</span> <span className="text-xs font-normal opacity-70 ml-2">PRO ED.</span></span>
+          </div>
+          <nav className="flex flex-wrap justify-center gap-2 text-sm font-medium">
+            <TabButton 
+              id="apec_asean" 
+              label="APEC / ASEAN MRA" 
+              activeTab={activeTab} 
+              setActiveTab={setActiveTab} 
+              icon={<Globe className="w-4 h-4" />}
+            />
+            <TabButton 
+              id="green" 
+              label="Green Certifications" 
+              activeTab={activeTab} 
+              setActiveTab={setActiveTab} 
+              icon={<Leaf className="w-4 h-4" />}
+            />
+            <TabButton 
+              id="quiz" 
+              label="Grand Quiz (100 Items)" 
+              activeTab={activeTab} 
+              setActiveTab={setActiveTab} 
+              icon={<Award className="w-4 h-4" />}
+            />
+          </nav>
+        </div>
+      </header>
+
+      {/* Hero Section */}
+      <HeroSection activeTab={activeTab} />
+
+      {/* MAIN CONTENT AREA */}
+      <main className="max-w-7xl mx-auto px-4 py-12">
+        
+        {/* === TAB 1: APEC / ASEAN AR === */}
+        <div className={activeTab === 'apec_asean' ? 'block' : 'hidden'}>
+          
+          <div className="grid lg:grid-cols-12 gap-8 mb-16">
+            {/* Sidebar Intro */}
+            <div className="lg:col-span-4 space-y-6">
+              <div className="bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
+                <h3 className="font-bold text-xl mb-4 text-slate-800">Why Global Practice?</h3>
+                <p className="text-slate-600 mb-4 leading-relaxed">
+                  Globalization in architecture promotes cultural exchange, technology transfer, and sustainable solutions. 
+                  However, it is strictly regulated to ensure professionalism and protect public welfare.
+                </p>
+                <div className="flex flex-wrap gap-2">
+                  <Badge text="RA 9266" color="bg-blue-100 text-blue-700" />
+                  <Badge text="GATS-WTO" color="bg-purple-100 text-purple-700" />
+                  <Badge text="MRA" color="bg-amber-100 text-amber-700" />
+                </div>
+              </div>
+              
+              <div className="bg-gradient-to-br from-slate-800 to-slate-900 text-white p-6 rounded-2xl shadow-lg">
+                <Scale className="w-10 h-10 text-emerald-400 mb-4" />
+                <h3 className="font-bold text-lg mb-2">The Legal Backbone</h3>
+                <p className="text-slate-300 text-sm mb-4">
+                  Foreign Architects cannot practice in PH without a <strong>Temporary/Special Permit (TSP)</strong> and a local <strong>Filipino Counterpart</strong>.
+                </p>
+                <div className="p-3 bg-white/10 rounded-lg backdrop-blur border border-white/10 text-xs">
+                  <strong className="block mb-1 text-emerald-300">Section 38, RA 9266</strong>
+                  "Practice of Foreign Architects is a privilege, not a right."
+                </div>
+              </div>
+            </div>
+
+            {/* Comparison Cards */}
+            <div className="lg:col-span-8 grid md:grid-cols-2 gap-6">
+              <DetailedCard 
+                title="APEC Architect"
+                sub="Asia-Pacific Economic Cooperation"
+                icon={<Globe className="w-6 h-6 text-white" />}
+                headerColor="bg-blue-600"
+                details={[
+                  { label: "Scope", val: "21 Economies (USA, CAN, AUS, JPN, etc.)" },
+                  { label: "Goal", val: "Reduce barriers to export of professional services." },
+                  { label: "Experience", val: "7 Years Total as RLA" },
+                  { label: "Responsibility", val: "3 Years as Architect-in-Charge" },
+                  { label: "Body", val: "APEC Architect Central Council" },
+                  { label: "Privilege", val: "Fast-track registration in host economy (often without full exams)." }
+                ]}
+              />
+              <DetailedCard 
+                title="ASEAN Architect"
+                sub="Assoc. of SE Asian Nations"
+                icon={<Users className="w-6 h-6 text-white" />}
+                headerColor="bg-amber-600"
+                details={[
+                  { label: "Scope", val: "10 Member States (SG, MY, TH, VN, etc.)" },
+                  { label: "Goal", val: "Mobility via Mutual Recognition Arrangement (MRA)." },
+                  { label: "Experience", val: "10 Years Total (post-grad), 5 Years (post-licensure)" },
+                  { label: "Responsibility", val: "2 Years Significant Charge" },
+                  { label: "Body", val: "ASEAN Architect Council (AAC)" },
+                  { label: "Privilege", val: "Work as 'Registered Foreign Architect' in collaboration with locals." }
+                ]}
+              />
+            </div>
+          </div>
+
+          {/* Deep Dive: Requirements Table */}
+          <div className="bg-white rounded-2xl shadow-lg border border-slate-200 overflow-hidden mb-12">
+            <div className="bg-slate-100 p-4 border-b border-slate-200 flex items-center gap-2">
+              <FileText className="w-5 h-5 text-slate-500" />
+              <h3 className="font-bold text-slate-700">Detailed Comparative Requirements</h3>
+            </div>
+            <div className="overflow-x-auto">
+              <table className="w-full text-sm text-left">
+                <thead className="bg-slate-50 text-slate-600 uppercase text-xs font-bold">
+                  <tr>
+                    <th className="p-4 border-b">Requirement</th>
+                    <th className="p-4 border-b text-blue-700 bg-blue-50">APEC Architect</th>
+                    <th className="p-4 border-b text-amber-700 bg-amber-50">ASEAN Architect</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-slate-100">
+                  <tr>
+                    <td className="p-4 font-medium text-slate-700">Education</td>
+                    <td className="p-4 text-slate-600">Accredited Arch. Degree (5 Years)</td>
+                    <td className="p-4 text-slate-600">Accredited Arch. Degree (5 Years)</td>
+                  </tr>
+                  <tr>
+                    <td className="p-4 font-medium text-slate-700">Licensure</td>
+                    <td className="p-4 text-slate-600">Valid RLA + IAPOA Member</td>
+                    <td className="p-4 text-slate-600">Valid RLA + IAPOA Member</td>
+                  </tr>
+                  <tr>
+                    <td className="p-4 font-medium text-slate-700">Post-Grad Experience</td>
+                    <td className="p-4 text-slate-600">Included in 7-year count</td>
+                    <td className="p-4 text-slate-600">10 Years continuous practice</td>
+                  </tr>
+                  <tr>
+                    <td className="p-4 font-medium text-slate-700">Post-Licensure Exp.</td>
+                    <td className="p-4 font-bold text-blue-600 bg-blue-50/50">7 Years Minimum</td>
+                    <td className="p-4 font-bold text-amber-600 bg-amber-50/50">5 Years Minimum</td>
+                  </tr>
+                  <tr>
+                    <td className="p-4 font-medium text-slate-700">Significant Charge</td>
+                    <td className="p-4 text-slate-600">At least 3 Years</td>
+                    <td className="p-4 text-slate-600">At least 2 Years</td>
+                  </tr>
+                  <tr>
+                    <td className="p-4 font-medium text-slate-700">CPD</td>
+                    <td className="p-4 text-slate-600">Mandatory Compliance</td>
+                    <td className="p-4 text-slate-600">Mandatory Compliance</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        {/* === TAB 2: GREEN BUILDING CERTIFICATIONS === */}
+        <div className={activeTab === 'green' ? 'block' : 'hidden'}>
+          <div className="grid lg:grid-cols-3 gap-8 mb-16">
+             {/* Main Standards */}
+             <div className="lg:col-span-2 space-y-8">
+                <StandardDetail 
+                  title="BERDE"
+                  sub="Building for Ecologically Responsive Design Excellence"
+                  origin="Philippines (PhilGBC)"
+                  color="emerald"
+                  desc="The National Voluntary Green Building Rating System. It prioritizes local environmental concerns like typhoon resilience, heritage conservation, and local labor."
+                  points={[
+                    "1-Star: Good Practice",
+                    "2-Star: Better Practice",
+                    "3-Star: Best Practice",
+                    "4-Star: Leadership",
+                    "5-Star: World Class"
+                  ]}
+                  icon={<Leaf className="w-6 h-6 text-white" />}
+                />
+                 <StandardDetail 
+                  title="LEED"
+                  sub="Leadership in Energy and Environmental Design"
+                  origin="USA (USGBC)"
+                  color="blue"
+                  desc="The most widely used green building rating system in the world. Points are awarded across multiple categories (Energy, Water, Site, Indoor Air, etc.)."
+                  points={[
+                    "Certified: 40-49 Points",
+                    "Silver: 50-59 Points",
+                    "Gold: 60-79 Points",
+                    "Platinum: 80+ Points"
+                  ]}
+                  icon={<Globe className="w-6 h-6 text-white" />}
+                />
+                <StandardDetail 
+                  title="EDGE"
+                  sub="Excellence in Design for Greater Efficiencies"
+                  origin="World Bank (IFC)"
+                  color="lime"
+                  desc="A quantifiable, savings-based standard focused on emerging markets. It uses a software tool to prove 20% less consumption than a local baseline."
+                  points={[
+                    "Level 1: EDGE Certified (20% savings)",
+                    "Level 2: EDGE Advanced (40% energy savings)",
+                    "Level 3: Zero Carbon (100% renewables)"
+                  ]}
+                  icon={<Zap className="w-6 h-6 text-white" />}
+                />
+             </div>
+
+             {/* Sidebar: Specialized & Planner */}
+             <div className="space-y-6">
+                <div className="bg-cyan-50 border border-cyan-200 p-6 rounded-2xl">
+                  <div className="flex items-center gap-3 mb-4">
+                    <Heart className="w-8 h-8 text-cyan-600" />
+                    <h3 className="font-bold text-cyan-900 text-lg">WELL Building Standard</h3>
+                  </div>
+                  <p className="text-sm text-cyan-800 mb-4">
+                    Unlike LEED which focuses on the building, WELL focuses on the <strong>people</strong> inside.
+                  </p>
+                  <ul className="text-xs space-y-2 text-cyan-700 font-medium">
+                    <li>• Air & Water Quality</li>
+                    <li>• Nourishment & Light</li>
+                    <li>• Movement & Thermal Comfort</li>
+                    <li>• Sound, Materials, Mind, Community</li>
+                  </ul>
+                </div>
+
+                <div className="bg-indigo-50 border border-indigo-200 p-6 rounded-2xl">
+                   <div className="flex items-center gap-3 mb-4">
+                    <BookOpen className="w-8 h-8 text-indigo-600" />
+                    <h3 className="font-bold text-indigo-900 text-lg">BREEAM</h3>
+                  </div>
+                   <p className="text-sm text-indigo-800 mb-4">
+                    (UK) The world's first sustainability assessment method. Known for scientific rigor.
+                  </p>
+                   <ul className="text-xs space-y-2 text-indigo-700 font-medium">
+                    <li>• Ratings: Pass, Good, Very Good, Excellent, Outstanding</li>
+                  </ul>
+                </div>
+
+                <div className="bg-slate-800 text-slate-300 p-6 rounded-2xl">
+                  <h3 className="text-white font-bold mb-2 flex items-center gap-2">
+                    <Layout className="w-5 h-5 text-emerald-400" /> Env. Planner (EnP)
+                  </h3>
+                  <p className="text-xs mb-4">
+                    Professionals who integrate environmental science into master planning, zoning, and land use.
+                  </p>
+                  <div className="bg-slate-700/50 p-3 rounded border border-slate-600 text-xs">
+                    <strong>Key Role:</strong> EIA (Environmental Impact Assessment) & ECC (Compliance Certificate)
+                  </div>
+                </div>
+             </div>
+          </div>
+        </div>
+
+        {/* === TAB 3: QUIZ (50 + 50 ITEMS) === */}
+        <div className={activeTab === 'quiz' ? 'block' : 'hidden'}>
+          <div className="grid lg:grid-cols-2 gap-12">
+            <QuizSection50 />
+            <GroupingGame50 />
+          </div>
+          
+          <div className="mt-12 bg-white rounded-2xl shadow-lg p-8 border border-slate-200">
+             <h3 className="text-2xl font-bold mb-6 text-slate-800 flex items-center gap-2">
+                <FileText className="w-6 h-6 text-emerald-600" /> Essay Challenge
+             </h3>
+             <p className="text-slate-600 mb-4">
+               <strong>Prompt:</strong> Critically analyze the relevance of BERDE in the context of the Philippines compared to adopting international standards like LEED. Why might a developer choose one over the other?
+             </p>
+             <textarea 
+               className="w-full h-32 p-4 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-emerald-500 outline-none text-sm"
+               placeholder="Write your analysis here..."
+             />
+          </div>
+        </div>
+
+      </main>
+
+      {/* Footer */}
+      <footer className="bg-slate-900 text-slate-500 py-12 px-4 border-t border-slate-800 mt-auto">
+        <div className="max-w-7xl mx-auto text-center">
+          <p className="mb-4 text-sm">
+            Sources: RA 9266, USGBC, PhilGBC, APEC Architect Manual, ASEAN Architect Manual.
+          </p>
+        </div>
+      </footer>
+    </div>
+  );
+};
+
+// --- SUB COMPONENTS ---
+
+const HeroSection = ({ activeTab }) => {
+  const content = {
+    apec_asean: {
+      title: "Global Practice Frameworks",
+      subtitle: "Navigating International Mobility & RA 9266",
+      grad: "from-blue-900 via-slate-900 to-slate-900"
+    },
+    green: {
+      title: "Sustainable Design Standards",
+      subtitle: "Mastering BERDE, LEED, EDGE & WELL",
+      grad: "from-emerald-900 via-slate-900 to-slate-900"
+    },
+    quiz: {
+      title: "The Master Proficiency Test",
+      subtitle: "100 Items: Identification & Classification",
+      grad: "from-amber-900 via-slate-900 to-slate-900"
+    }
+  };
+  const curr = content[activeTab];
+
+  return (
+    <section className={`bg-gradient-to-br ${curr.grad} text-white py-16 px-4 transition-all duration-500`}>
+        <div className="max-w-4xl mx-auto text-center">
+          <h1 className="text-4xl md:text-5xl font-extrabold mb-4 leading-tight tracking-tight">
+            {curr.title}
+          </h1>
+          <p className="text-xl text-slate-300 max-w-2xl mx-auto font-medium opacity-90">
+            {curr.subtitle}
+          </p>
+        </div>
+    </section>
+  );
+};
+
+const TabButton = ({ id, label, activeTab, setActiveTab, icon }) => (
+  <button 
+    onClick={() => setActiveTab(id)}
+    className={`flex items-center gap-2 px-5 py-2.5 rounded-full transition-all duration-200 border ${
+      activeTab === id 
+        ? 'bg-white text-slate-900 border-white font-bold shadow-md transform scale-105' 
+        : 'bg-transparent text-slate-300 border-slate-700 hover:border-slate-500 hover:text-white'
+    }`}
+  >
+    {icon}
+    {label}
+  </button>
+);
+
+const Badge = ({ text, color }) => (
+  <span className={`px-2 py-1 rounded-md text-xs font-bold uppercase tracking-wider ${color}`}>
+    {text}
+  </span>
+);
+
+const DetailedCard = ({ title, sub, icon, headerColor, details }) => (
+  <div className="bg-white rounded-2xl shadow-md overflow-hidden border border-slate-100 flex flex-col">
+    <div className={`${headerColor} p-6 flex items-center justify-between`}>
+      <div>
+        <h3 className="text-white font-bold text-xl">{title}</h3>
+        <p className="text-white/80 text-xs font-medium uppercase tracking-wide">{sub}</p>
+      </div>
+      <div className="bg-white/20 p-2 rounded-lg backdrop-blur-sm">{icon}</div>
+    </div>
+    <div className="p-6 flex-1">
+      <ul className="space-y-4">
+        {details.map((d, i) => (
+           <li key={i} className="text-sm border-b border-slate-50 last:border-0 pb-3 last:pb-0">
+             <span className="block text-xs font-bold text-slate-400 uppercase mb-1">{d.label}</span>
+             <span className="text-slate-800 font-medium">{d.val}</span>
+           </li>
+        ))}
+      </ul>
+    </div>
+  </div>
+);
+
+const StandardDetail = ({ title, sub, origin, color, desc, points, icon }) => {
+  const colors = {
+    emerald: "bg-emerald-50 text-emerald-900 border-emerald-200",
+    blue: "bg-blue-50 text-blue-900 border-blue-200",
+    lime: "bg-lime-50 text-lime-900 border-lime-200"
+  };
+  const iconBGs = {
+    emerald: "bg-emerald-500",
+    blue: "bg-blue-500",
+    lime: "bg-lime-600"
+  };
+
+  return (
+    <div className={`p-6 rounded-2xl border ${colors[color]} flex flex-col md:flex-row gap-6`}>
+       <div className="flex-1">
+         <div className="flex items-center gap-3 mb-2">
+            <div className={`p-2 rounded-lg shadow-sm ${iconBGs[color]}`}>{icon}</div>
+            <div>
+              <h3 className="text-2xl font-bold">{title}</h3>
+              <p className="text-xs font-bold uppercase opacity-70">{origin}</p>
+            </div>
+         </div>
+         <p className="text-sm font-medium opacity-70 mb-4">{sub}</p>
+         <p className="text-slate-700 text-sm leading-relaxed mb-4">{desc}</p>
+       </div>
+       <div className="w-full md:w-1/3 bg-white/60 rounded-xl p-4 backdrop-blur-sm border border-white/50">
+          <h4 className="font-bold text-sm mb-3 uppercase tracking-wide opacity-80">Rating Levels</h4>
+          <ul className="space-y-2">
+            {points.map((p, i) => (
+              <li key={i} className="text-xs font-semibold flex items-center gap-2">
+                <CheckCircle className="w-3 h-3 opacity-50" /> {p}
+              </li>
+            ))}
+          </ul>
+       </div>
+    </div>
+  )
+};
+
+// --- QUIZ DATA GENERATORS ---
+
+const QuizSection50 = () => {
+  // Generating 50 Identification Questions
+  const questions = useMemo(() => [
+    { q: "Law governing Architecture in PH", a: "RA 9266" },
+    { q: "Minimum years of practice for APEC Architect", a: "7 Years" },
+    { q: "Minimum years of practice for ASEAN Architect (Post-Grad)", a: "10 Years" },
+    { q: "Minimum years of practice for ASEAN Architect (Post-Licensure)", a: "5 Years" },
+    { q: "Body that regulates PH professions", a: "PRC" },
+    { q: "Regulatory Board specifically for Architects", a: "PRBOA" },
+    { q: "Integrated & Accredited Professional Org of Architects", a: "UAP" },
+    { q: "Mandatory permit for Foreign Architects in PH", a: "TSP" },
+    { q: "Must a Foreign Architect have a Filipino counterpart?", a: "Yes" },
+    { q: "Who assumes civil liability in a Foreign-Local partnership?", a: "Filipino Architect" },
+    { q: "Highest rating in LEED", a: "Platinum" },
+    { q: "Highest rating in BERDE", a: "5-Star" },
+    { q: "Highest rating in BREEAM", a: "Outstanding" },
+    { q: "Green system focusing on 20% savings", a: "EDGE" },
+    { q: "Green system focusing on human wellness", a: "WELL" },
+    { q: "Developer of LEED", a: "USGBC" },
+    { q: "Developer of BERDE", a: "PhilGBC" },
+    { q: "Developer of EDGE", a: "IFC (World Bank)" },
+    { q: "Developer of BREEAM", a: "BRE (UK)" },
+    { q: "Philippine National Building Code", a: "PD 1096" },
+    { q: "Accessibility Law", a: "BP 344" },
+    { q: "Fire Code of the Philippines", a: "RA 9514" },
+    { q: "Environmental Impact Assessment", a: "EIA" },
+    { q: "Environmental Compliance Certificate", a: "ECC" },
+    { q: "Role responsible for EIA/ECC", a: "Environmental Planner" },
+    { q: "Does APEC Architect status grant automatic license in host country?", a: "No" },
+    { q: "Number of economies in APEC", a: "21" },
+    { q: "Number of member states in ASEAN", a: "10" },
+    { q: "Document facilitating professional mobility in ASEAN", a: "MRA" },
+    { q: "APEC Architect Central Council acronym", a: "AACC" },
+    { q: "ASEAN Architect Council acronym", a: "AAC" },
+    { q: "Standard of Professional Practice", a: "SPP" },
+    { q: "Code of Ethical Conduct", a: "CEC" },
+    { q: "Continuing Professional Development", a: "CPD" },
+    { q: "Required CPD credit units for renewal (standard)", a: "15" },
+    { q: "Can a foreign firm satisfy the 7-year APEC requirement?", a: "No (Individual only)" },
+    { q: "Is BERDE mandatory for all PH buildings?", a: "No (Voluntary)" },
+    { q: "Primary focus of EDGE", a: "Resource Efficiency" },
+    { q: "Primary focus of WELL", a: "Occupant Health" },
+    { q: "Primary focus of LEED", a: "Environmental Performance" },
+    { q: "LEED Certified Point Range", a: "40-49" },
+    { q: "LEED Silver Point Range", a: "50-59" },
+    { q: "LEED Gold Point Range", a: "60-79" },
+    { q: "LEED Platinum Point Range", a: "80+" },
+    { q: "Years of Diversified Experience for BLEA", a: "2 Years" },
+    { q: "Old Architecture Law", a: "RA 545" },
+    { q: "Does ASEAN Architect allow independent practice in host country?", a: "No" },
+    { q: "Term for Foreign Architect in ASEAN host country", a: "RFA" },
+    { q: "Can a corporation be an APEC Architect?", a: "No" },
+    { q: "Is membership in UAP required for APEC registration?", a: "Yes" },
+  ], []);
+
+  const [revealed, setRevealed] = useState({});
+
+  const toggleReveal = (idx) => {
+    setRevealed(prev => ({ ...prev, [idx]: !prev[idx] }));
+  };
+
+  return (
+    <div className="bg-white rounded-2xl shadow-lg border border-slate-200 overflow-hidden h-[600px] flex flex-col">
+      <div className="bg-slate-800 p-4 text-white flex items-center justify-between">
+         <h3 className="font-bold flex items-center gap-2">
+           <HelpCircle className="w-5 h-5 text-amber-400" /> Identification (50 Items)
+         </h3>
+         <span className="text-xs bg-slate-700 px-2 py-1 rounded">Scroll to view all</span>
+      </div>
+      <div className="overflow-y-auto p-4 space-y-2 bg-slate-50 flex-1">
+        {questions.map((item, idx) => (
+          <div 
+            key={idx} 
+            onClick={() => toggleReveal(idx)}
+            className="group cursor-pointer bg-white p-3 rounded-lg border border-slate-200 hover:border-emerald-400 transition-all flex flex-col"
+          >
+            <div className="flex justify-between items-start">
+              <span className="text-sm font-medium text-slate-700 flex gap-2">
+                <span className="text-slate-400 font-mono text-xs mt-0.5">{idx + 1}.</span>
+                {item.q}
+              </span>
+              <span className="text-xs text-slate-400 group-hover:text-emerald-500">
+                {revealed[idx] ? "Hide" : "Reveal"}
+              </span>
+            </div>
+            {revealed[idx] && (
+               <div className="mt-2 text-sm font-bold text-emerald-600 pl-6 animate-fade-in">
+                 {item.a}
+               </div>
+            )}
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+};
+
+const GroupingGame50 = () => {
+  // 50 Items for Categorization
+  const items = useMemo(() => [
+    { txt: "21 Economies", grp: "APEC" },
+    { txt: "10 Member States", grp: "ASEAN" },
+    { txt: "USGBC", grp: "LEED" },
+    { txt: "PhilGBC", grp: "BERDE" },
+    { txt: "IFC / World Bank", grp: "EDGE" },
+    { txt: "Typhoon Resilience", grp: "BERDE" },
+    { txt: "Platinum Rating", grp: "LEED" },
+    { txt: "5-Star Rating", grp: "BERDE" },
+    { txt: "20% Savings Baseline", grp: "EDGE" },
+    { txt: "7 Years Experience", grp: "APEC" },
+    { txt: "5 Years Post-Licensure", grp: "ASEAN" },
+    { txt: "Section 38", grp: "RA 9266" },
+    { txt: "Temporary Special Permit", grp: "RA 9266" },
+    { txt: "Filipino Counterpart", grp: "RA 9266" },
+    { txt: "Gold Rating", grp: "LEED" },
+    { txt: "Heritage Conservation (PH)", grp: "BERDE" },
+    { txt: "Zero Carbon Level", grp: "EDGE" },
+    { txt: "RFPA (Registered Foreign)", grp: "ASEAN" },
+    { txt: "Mutual Recognition Arrangement", grp: "ASEAN" },
+    { txt: "Cross-Border Mobility (Pacific)", grp: "APEC" },
+    { txt: "IWBI", grp: "WELL" },
+    { txt: "Nourishment Concept", grp: "WELL" },
+    { txt: "Air Concept", grp: "WELL" },
+    { txt: "BRE", grp: "BREEAM" },
+    { txt: "Outstanding Rating", grp: "BREEAM" },
+    { txt: "Reciprocity", grp: "RA 9266" },
+    { txt: "PRC-BOA", grp: "RA 9266" },
+    { txt: "IAPOA", grp: "RA 9266" },
+    { txt: "Certified Level", grp: "LEED" },
+    { txt: "Silver Level", grp: "LEED" },
+    { txt: "1-Star", grp: "BERDE" },
+    { txt: "Local Labor Priority", grp: "BERDE" },
+    { txt: "Emerging Markets Focus", grp: "EDGE" },
+    { txt: "Simple Software Tool", grp: "EDGE" },
+    { txt: "USA, Australia, Japan", grp: "APEC" },
+    { txt: "Singapore, Thailand, Vietnam", grp: "ASEAN" },
+    { txt: "Central Council", grp: "APEC" },
+    { txt: "Monitoring Committee", grp: "APEC" },
+    { txt: "AAC", grp: "ASEAN" },
+    { txt: "Civil Liability", grp: "RA 9266" },
+    { txt: "Local Partner", grp: "RA 9266" },
+    { txt: "Water Efficiency", grp: "LEED" },
+    { txt: "Indoor Env. Quality", grp: "LEED" },
+    { txt: "Regenerative Design", grp: "BERDE" },
+    { txt: "Cost-Effective Green", grp: "EDGE" },
+    { txt: "Health-Safety Rating", grp: "WELL" },
+    { txt: "Mind Concept", grp: "WELL" },
+    { txt: "CPD Compliance", grp: "RA 9266" },
+    { txt: "Code of Ethics", grp: "RA 9266" },
+    { txt: "Professional Fee", grp: "RA 9266" },
+  ], []);
+
+  const [flipped, setFlipped] = useState({});
+
+  return (
+    <div className="bg-white rounded-2xl shadow-lg border border-slate-200 overflow-hidden h-[600px] flex flex-col">
+       <div className="bg-emerald-800 p-4 text-white flex items-center justify-between">
+         <h3 className="font-bold flex items-center gap-2">
+           <Layout className="w-5 h-5 text-emerald-400" /> Classification (50 Items)
+         </h3>
+         <span className="text-xs bg-emerald-700 px-2 py-1 rounded">Click to Reveal</span>
+      </div>
+      <div className="overflow-y-auto p-4 flex-1 bg-slate-100">
+        <div className="grid grid-cols-2 gap-3">
+          {items.map((item, idx) => (
+            <div 
+              key={idx}
+              onClick={() => setFlipped(p => ({...p, [idx]: !p[idx]}))}
+              className={`
+                cursor-pointer h-24 rounded-lg flex items-center justify-center p-3 text-center text-sm font-medium transition-all duration-500 perspective-1000
+                ${flipped[idx] 
+                  ? 'bg-slate-800 text-white rotate-y-180 shadow-inner' 
+                  : 'bg-white text-slate-700 shadow-sm hover:shadow-md border border-slate-200 hover:border-emerald-300'
+                }
+              `}
+            >
+              {flipped[idx] ? (
+                 <span className="font-bold text-emerald-400 animate-fade-in">{item.grp}</span>
+              ) : (
+                 <span>{item.txt}</span>
+              )}
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  )
+}
+
+export default App;
